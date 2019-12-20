@@ -18,9 +18,26 @@ export default class SpaceShip {
             X: this.defaultSpeed.X,
             Y: this.defaultSpeed.Y
         }
+        this.motors = {
+            left : 0,
+            right: 0,
+            down : 0
+        }
     }
 
     update() {
+        // update speed according to motors
+        if(this.motors.left) {
+            this.speed.X += 5;
+        }
+        if(this.motors.right) {
+            this.speed.X -= 5;
+        }
+        if(this.motors.down) {
+            this.speed.Y -= 5;
+        }
+    
+        // update position
         this.pos.X += (this.speed.X / 100);
         this.pos.Y += (this.speed.Y / 100);
 
@@ -34,7 +51,7 @@ export default class SpaceShip {
         if(this.speed.Y > this.defaultSpeed.Y)
             this.speed.Y -= 1;
         if(this.speed.Y < this.defaultSpeed.Y)
-            this.speed.Y += 1;
+            this.speed.Y += 3;
     }
 
     draw(ctx) {
@@ -42,19 +59,33 @@ export default class SpaceShip {
             this.pos.X, this.pos.Y, this.size.X, this.size.Y);
         ctx.strokeStyle = "white";
         ctx.strokeText(`speed.X: ${this.speed.X.toFixed(2)}`, 10, 10);
-        ctx.strokeText(`pos.X: ${this.pos.X.toFixed(2)}`, 10, 20);
+        ctx.strokeText(`speed.Y: ${this.speed.Y.toFixed(2)}`, 100, 10);
+        ctx.strokeText(`pos.X: ${this.pos.X.toFixed(2)}`, 190, 10);
+        ctx.strokeText(`pos.Y: ${this.pos.Y.toFixed(2)}`, 280, 10);
     }
 
-    addSpeedLeft() {
-        this.speed.X -= 5;
+    leftMotorStart() {
+        this.motors.left = 1;
     }
 
-    addSpeedRight() {
-        this.speed.X += 5;
+    leftMotorStop() {
+        this.motors.left = 0;
     }
 
-    addSpeedUp() {
-        this.speed.Y -= 5;
+    rightMotorStart() {
+        this.motors.right = 1;
+    }
+
+    rightMotorStop() {
+        this.motors.right = 0;
+    }
+
+    downMotorStart() {
+        this.motors.down = 1;
+    }
+
+    downMotorStop() {
+        this.motors.down = 0;
     }
 
 }

@@ -1,5 +1,10 @@
 import SpaceShip from "./SpaceShip.js";
 
+const KEY_ARROW_LEFT  = 37;
+const KEY_ARROW_RIGHT = 39;
+const KEY_ARROW_DOWN  = 40;
+const KEY_ARROW_UP    = 38;
+
 export default class Game {
 
     constructor() {
@@ -10,12 +15,11 @@ export default class Game {
         this.canvas.height = window.innerHeight;
 
         document.addEventListener("keydown", event => {
-            console.log('event.keyCode: ' + event.keyCode);
-            switch(event.keyCode) {
-                case 37: this.leftKey();  break;
-                case 38: this.upKey();    break;
-                case 39: this.rightKey(); break;
-            }
+            this.keyDown(event.keyCode);
+        });
+
+        document.addEventListener("keyup", event => {
+            this.keyUp(event.keyCode);
         });
 
     }
@@ -33,16 +37,32 @@ export default class Game {
         this.spaceShip.draw(this.context);
     }
 
-    leftKey() {
-        this.spaceShip.addSpeedLeft();
+    keyDown(keyCode) {
+        switch(keyCode) {
+            case KEY_ARROW_LEFT:
+                this.spaceShip.rightMotorStart();
+                break;
+            case KEY_ARROW_RIGHT:
+                this.spaceShip.leftMotorStart();
+                break;
+            case KEY_ARROW_UP:
+                this.spaceShip.downMotorStart();
+                break;
+        }
     }
 
-    rightKey() {
-        this.spaceShip.addSpeedRight();
-    }
-
-    upKey() {
-        this.spaceShip.addSpeedUp();
+    keyUp(keyCode) {
+        switch(keyCode) {
+            case KEY_ARROW_LEFT:
+                this.spaceShip.rightMotorStop();
+                break;
+            case KEY_ARROW_RIGHT:
+                this.spaceShip.leftMotorStop();
+                break;
+            case KEY_ARROW_UP:
+                this.spaceShip.downMotorStop();
+                break;
+        }
     }
 
 }
