@@ -1,10 +1,13 @@
 export default class SpaceShip {
 
     constructor() {
-        this.image = document.getElementById("spaceship");
+        this.imgMain = document.getElementById("spaceship");
+        this.imgFlameLeft = document.getElementById("motor-flame-left");
+        this.imgFlameRight = document.getElementById("motor-flame-right");
+        this.imgFlameDown = document.getElementById("motor-flame-down");
         this.size = {
-            X: this.image.width,
-            Y: this.image.height
+            X: this.imgMain.width,
+            Y: this.imgMain.height
         }
         this.pos = {
             X: 100,
@@ -55,8 +58,13 @@ export default class SpaceShip {
     }
 
     draw(ctx) {
-        ctx.drawImage(this.image,
-            this.pos.X, this.pos.Y, this.size.X, this.size.Y);
+        ctx.drawImage(this.imgMain, this.pos.X, this.pos.Y);
+        if(this.motors.left)
+            ctx.drawImage(this.imgFlameLeft, this.pos.X - this.imgFlameLeft.width, this.pos.Y + 110);
+        if(this.motors.right)
+            ctx.drawImage(this.imgFlameRight, this.pos.X + this.imgMain.width, this.pos.Y + 110);
+        if(this.motors.down)
+            ctx.drawImage(this.imgFlameDown, this.pos.X + (this.imgMain.width / 2) - (this.imgFlameDown.width / 2), this.pos.Y + this.imgMain.height - 25);
         ctx.strokeStyle = "white";
         ctx.strokeText(`speed.X: ${this.speed.X.toFixed(2)}`, 10, 10);
         ctx.strokeText(`speed.Y: ${this.speed.Y.toFixed(2)}`, 100, 10);
